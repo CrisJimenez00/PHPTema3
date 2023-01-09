@@ -11,11 +11,10 @@
 <body>
     <?php
     require "class_fruta.php";
-    $pera = new Fruta();
-    $pera->set_color("verde");
-    $pera->set_tamano("mediano");
+
+    //Como en el constructor se pone el método imprimir(que no es usual), el orden sí afecta.
     echo "<h1>Información de la pera</h1>";
-    echo "<p>Color: ".$pera->get_color().", Tamaño: ".$pera->get_tamano()."</p>";
+    $pera = new Fruta("verde", "mediano");
     ?>
 </body>
 
