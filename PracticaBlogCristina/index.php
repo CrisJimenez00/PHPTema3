@@ -23,6 +23,7 @@ function error_page($title, $encabezado, $mensaje)
 }
 
 if (isset($_POST["btnEntrar"])) {
+
     $error_usuario = $_POST["usuario"] == "";
     $error_clave = $_POST["clave"] == "";
     $error_form = $error_usuario || $error_clave;
@@ -34,6 +35,7 @@ if (isset($_POST["btnEntrar"])) {
     } catch (PDOException $e) {
         die(error_page("Loging con PDO", "Login con PDO", "<p>Imposible conectar.Error:" . $e->getMessage() . "</p></body></html>"));
     }
+
     //Para la consulta
     try {
 
@@ -45,15 +47,14 @@ if (isset($_POST["btnEntrar"])) {
 
         //LISTAR
         if ($sentencia->rowCount() > 0) {
-            session_name("Login_PDO_22_23");
-            session_start();
+
             $_SESSION["usuario"] = $datos[0];
             $_SESSION["clave"] = $datos[1];
 
-            header("Location:index.php");
-            exit;
+            
         } else {
             $error_usuario = true;
+            session_unset();
         }
     } catch (PDOException $e) {
 
@@ -63,9 +64,11 @@ if (isset($_POST["btnEntrar"])) {
 
         die(error_page("Loging con PDO", "Login con PDO", "<p>Imposible conectar.Error:" . $e->getMessage() . "</p></body></html>"));
     }
-    if (isset($_SESION["usuario"]) && isset($_SESION["clave"])) {
-        require "login_usuario";
+
+    if (isset($_SESSION["usuario"]) && isset($_SESSION["clave"])) {
     
+        require "login_usuario.php";
+        exit();
     } else {
     
         echo "<span class='error'>Usuario/Clave no registrada en la BD</span>";
@@ -106,6 +109,7 @@ if (isset($_POST["btnEntrar"])) {
             <?php
             if (isset($_POST["btnEntrar"]) && $error_clave) {
                 if ($_POST["clave"] == "") {
+                    
                     echo "<span class='error'>Campo vacío</span>";
                 } else {
                     echo "<span class='error'>Usuario/Clave no registrada en la BD</span>";
