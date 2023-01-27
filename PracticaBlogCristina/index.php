@@ -51,7 +51,6 @@ if (isset($_POST["btnEntrar"])) {
             $_SESSION["usuario"] = $datos[0];
             $_SESSION["clave"] = $datos[1];
 
-            
         } else {
             $error_usuario = true;
             session_unset();
