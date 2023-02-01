@@ -31,7 +31,7 @@ function error_page($title,$cabecera,$mensaje)
     </html>';
 }
 
-define("DIR_SERV","http://localhost/Proyectos/Curso22_23/Servicios_Web/Ejercicio1/servicios_rest_ejer1");
+define("DIR_SERV","http://localhost/Proyectos/Servicios_Web/Ejercicio1/servicios_rest_ejer1");
 
 if(isset($_POST["btnContBorrar"]))
 {
