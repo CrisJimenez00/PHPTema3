@@ -1,4 +1,9 @@
 <?php
+
+function bien_escrito_dni($texto)
+{
+    return strlen($texto) == 9 && is_numeric(substr($texto, 0, 8)) && strtoupper(substr($texto, 8, 1)) >= "A" && strtoupper(substr($texto, 8, 1)) <= "Z";
+}
 if (isset($_POST["btnBorrar"])) {
     unset($_POST);
 }
@@ -7,7 +12,9 @@ if (isset($_POST["btnGuardar"])) {
     $error_nombre = $_POST["nombre"] == "";
     $error_clave = $_POST["clave"] == "";
     $error_checkbox = !isset($_POST["boletin"]);
+    //Si no le obligamos a subir foto sería $_FILES["foto"]["name"] != "" && $_FILES["foto"]["error"]
     $error_archivo = $_FILES["foto"]["name"] == "" || $_FILES["foto"]["error"] || !getimagesize($_FILES["foto"]["tmp_name"]) || $_FILES["foto"]["size"] > 500 * 1000;
+    $error_dni = $_POST["dni"] == "" || !bien_escrito_dni($_POST["dni"]);
     $error_form = $error_usuario || $error_nombre || $error_clave || $error_checkbox || $error_archivo;
 }
 if (isset($_POST["btnGuardar"]) && !$error_form) {
@@ -118,14 +125,28 @@ if (isset($_POST["btnGuardar"]) && !$error_form) {
                 <!--DNI-->
                 <label for="dni">DNI:</label>
                 <br />
-                <input type="text" name="dni" id="dni" placeholder="DNI:11223344Z..." value=>
+                <input type="text" name="dni" id="dni" placeholder="DNI:11223344Z..." value=<?php
+                if (isset($_POST["dni"])&&bien_escrito_dni($_POST["dni"]))
+                    echo $_POST["dni"];
+                ?>>
+                <?php
+                if (isset($_POST["btnGuardar"]) && $error_dni) {
+                    if ($_POST["dni"] == "") {
+                        echo "*Debes rellenar el DNI*";
+                    } else {
+                        echo "*Debes rellenar el DNI con 8 dígitos seguidos de una letra*";
+                    }
+                }
+
+
+                ?>
             </p>
             <!--Sexo-->
-            <p><label for="sexo">Sexo:</label>
+            <p><label >Sexo:</label>
                 <br />
-                <input type="radio" name="sexo" id="hombre" value="hombre" checked>Hombre
+                <input type="radio" name="sexo" id="hombre" value="hombre" checked><label for="hombre">Hombre:</label>
                 <br />
-                <input type="radio" name="sexo" id="mujer" value="mujer">Mujer
+                <input type="radio" name="sexo" id="mujer" value="mujer"><label for="mujer">Mujer:</label>
             </p>
             <!--Foto-->
             <p><label for="foto">Incluir mi foto(Máx. 500KB)</label>
