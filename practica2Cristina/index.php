@@ -1,4 +1,6 @@
 <?php
+session_name("login");
+session_start();
 function bien_escrito_dni($texto)
 {
     return strlen($texto) == 9 && is_numeric(substr($texto, 0, 8)) && strtoupper(substr($texto, 8, 1)) >= "A" && strtoupper(substr($texto, 8, 1)) <= "Z";
@@ -17,6 +19,11 @@ if (isset($_POST["btnEnviar"]) || isset($_POST["btnRegistrar"])) {
     $error_usuario = $_POST["usuario"] == "";
     $error_clave = $_POST["clave"] == "";
     $error_formulario = $error_usuario || $error_clave;
+}
+if (isset($_POST["btnSalir"])) {
+    session_destroy();
+    header("Location:index.php");
+    exit;
 }
 ?>
 <!DOCTYPE html>
