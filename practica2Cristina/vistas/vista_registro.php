@@ -1,3 +1,20 @@
+<?php
+function bien_escrito_dni($texto)
+{
+    return strlen($texto) == 9 && is_numeric(substr($texto, 0, 8)) && strtoupper(substr($texto, 8, 1)) >= "A" && strtoupper(substr($texto, 8, 1)) <= "Z";
+}
+//Control de errores con boton guardar
+if (isset($_POST["btnGuardar"])) {
+    $error_usuario = $_POST["usuario"] == "";
+    $error_nombre = $_POST["nombre"] == "";
+    $error_clave = $_POST["clave"] == "";
+    //Si no le obligamos a subir foto sería $_FILES["foto"]["name"] != "" && $_FILES["foto"]["error"]
+    $error_archivo = $_FILES["foto"]["name"] != "" && ($_FILES["foto"]["error"] || !getimagesize($_FILES["foto"]["tmp_name"]) || $_FILES["foto"]["size"] > 500 * 1000);
+    $error_dni = $_POST["dni"] == "" || !bien_escrito_dni($_POST["dni"]);
+    $error_formulario = $error_usuario || $error_nombre || $error_clave || $error_archivo || $error_dni;
+}
+?>
+<html>
 <!--Formulario-->
 <form action="index.php" method="post" enctype="multipart/form-data">
 
@@ -90,3 +107,4 @@
     <button type="submit" name="btnGuardar">Guardar Cambios</button>
     <button type="submit" name="btnBorrar">Borrar los datos introducidos</button>
 </form>
+</html>

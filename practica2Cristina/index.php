@@ -7,16 +7,18 @@ session_start();
 require "src/config_bd.php";
 
 //Esta es la estructura básica
-if (isset($_SESSION["usuario"])) {
+if (isset($_SESSION["usuario"]) && isset($_SESSION["clave"]) && isset($_SESSION["ultimo_acceso"])) {
     require "src/seguridad.php";
 
 
     if($datos_usuario["tipo"]=="admin")
     {
+        //Si es admin el usuario
         require "vistas/vista_admin.php";
 
     }else{
-        require "vistas/vista_no9rmal.php";
+        //Si es normal el usuario
+        require "vistas/vista_normal.php";
 
     }
     /*?>
@@ -36,9 +38,9 @@ if (isset($_SESSION["usuario"])) {
     
     //Si le da al boton registrar o guardar cambios o le da al botón borrar
 } else if (isset($_POST["btnRegistrar"]) || isset($_POST["btnGuardar"]) || isset($_POST["btnBorrar"])) {
-    if (isset($_POST["btnBorrar"])) {
+    /*if (isset($_POST["btnBorrar"])) {
         unset($_POST);
-    }
+    }*/
     require "vistas/vista_registro.php";
 
 } else {
@@ -50,24 +52,11 @@ if (isset($_SESSION["usuario"])) {
 
 
 //Metodo que te dice si está bien escrito el dni
-/*function bien_escrito_dni($texto)
-{
-    return strlen($texto) == 9 && is_numeric(substr($texto, 0, 8)) && strtoupper(substr($texto, 8, 1)) >= "A" && strtoupper(substr($texto, 8, 1)) <= "Z";
-}
-//Control de errores con boton guardar
-if (isset($_POST["btnGuardar"])) {
-    $error_usuario = $_POST["usuario"] == "";
-    $error_nombre = $_POST["nombre"] == "";
-    $error_clave = $_POST["clave"] == "";
-    //Si no le obligamos a subir foto sería $_FILES["foto"]["name"] != "" && $_FILES["foto"]["error"]
-    $error_archivo = $_FILES["foto"]["name"] != "" && ($_FILES["foto"]["error"] || !getimagesize($_FILES["foto"]["tmp_name"]) || $_FILES["foto"]["size"] > 500 * 1000);
-    $error_dni = $_POST["dni"] == "" || !bien_escrito_dni($_POST["dni"]);
-    $error_formulario = $error_usuario || $error_nombre || $error_clave || $error_archivo || $error_dni;
-}
+/*
 */
 ?>
 <!DOCTYPE html>
-<html lang="en">
+<html lang="e">
 
 <head>
     <meta charset="UTF-8">
@@ -78,12 +67,7 @@ if (isset($_POST["btnGuardar"])) {
 
 <body>
     
-    <?php
-
-     if(isset($_SESSION["seguridad"])){
-        echo "<p>".$_SESSION["seguridad"]."</p>";
-       }
-    ?>
+    
 </body>
 
 </html>

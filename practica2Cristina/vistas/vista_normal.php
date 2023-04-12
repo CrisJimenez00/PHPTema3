@@ -1,12 +1,12 @@
 <?php
-if (isset($_POST["btnSalir"])) {
+/*if (isset($_POST["btnSalir"])) {
     session_destroy();
     header("Location:index.php");
     exit;
-}
+}*/
 ?>
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 
 <head>
     <meta charset="UTF-8">
