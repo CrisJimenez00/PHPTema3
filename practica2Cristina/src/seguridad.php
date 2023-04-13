@@ -41,7 +41,8 @@ try {
 }
 
 //Controlamos el tiempo de sesión:
-if (time() - $_SESSION["ultimo_acceso"] > MINUTOS * 60) {
+if (time() - $_SESSION["ultima_accion"] > MINUTOS * 60) {
+    $conexion = null;
     session_unset();
     $_SESSION["seguridad"] = "El tiempo de sesión ha expirado";
     header("Location:index.php");
@@ -49,4 +50,4 @@ if (time() - $_SESSION["ultimo_acceso"] > MINUTOS * 60) {
 }
 
 //Refrescamos el tiempo de acceso:
-$_SESSION["ultimo_acceso"] = time();
+$_SESSION["ultima_accion"] = time();

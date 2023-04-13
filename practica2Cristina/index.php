@@ -5,12 +5,23 @@ session_name("login");
 //La inicializamos
 session_start();
 require "src/config_bd.php";
+require "src/funciones.php";
+
+
 
 //Esta es la estructura básica
 if (isset($_SESSION["usuario"]) && isset($_SESSION["clave"]) && isset($_SESSION["ultimo_acceso"])) {
+    //Por si le da a salir que se destruya la sesión
+    if(isset($_POST["btnSalir"])){
+        session_destroy();
+        header("Location:index.php");
+        exit();
+    }
+
+    //Ponemos el código de seguridad
     require "src/seguridad.php";
 
-
+    //Diferenciamos según el tipo de usuario
     if($datos_usuario["tipo"]=="admin")
     {
         //Si es admin el usuario
@@ -21,21 +32,6 @@ if (isset($_SESSION["usuario"]) && isset($_SESSION["clave"]) && isset($_SESSION[
         require "vistas/vista_normal.php";
 
     }
-    /*?>
-    <style>
-        button {
-            all: unset;
-            color: blue;
-            text-decoration: underline;
-        }
-    </style>
-    <form action="index.php" method="post">
-        <p> Bienvenido
-            <?php echo $_POST["usuario"] ?> - <button type="submit" name="btnSalir">Salir</button>
-        </p>
-    </form>
-    <?php*/
-    
     //Si le da al boton registrar o guardar cambios o le da al botón borrar
 } else if (isset($_POST["btnRegistrar"]) || isset($_POST["btnGuardar"]) || isset($_POST["btnBorrar"])) {
     /*if (isset($_POST["btnBorrar"])) {
@@ -55,19 +51,3 @@ if (isset($_SESSION["usuario"]) && isset($_SESSION["clave"]) && isset($_SESSION[
 /*
 */
 ?>
-<!DOCTYPE html>
-<html lang="e">
-
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Practica 2 Recu Cristina</title>
-</head>
-
-<body>
-    
-    
-</body>
-
-</html>
